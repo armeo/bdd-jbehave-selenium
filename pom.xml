@@ -3,12 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.bdd.test</groupId>
     <artifactId>bdd-jbehave-selenium</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <selenium.java.version>2.42.2</selenium.java.version>
         <jbehave.core.version>3.9.2</jbehave.core.version>
         <jbehave.web.version>3.6-beta-2</jbehave.web.version>
@@ -24,7 +26,6 @@
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
 
         <ignore.failures>true</ignore.failures>
-        <meta.filter></meta.filter>
         <threads>1</threads>
         <skip>false</skip>
         <stories>**/Stories.java</stories>
@@ -41,6 +42,7 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Jbehave -->
         <dependency>
             <groupId>org.jbehave</groupId>
             <artifactId>jbehave-core</artifactId>
@@ -74,36 +76,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
-            <groupId>org.seleniumhq.selenium.fluent</groupId>
-            <artifactId>fluent-selenium</artifactId>
-            <version>${selenium.fluent.version}</version>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.jbehave</groupId>
+            <artifactId>jbehave-spring</artifactId>
+            <version>${jbehave.core.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>${hamcrest.all.version}</version>
-        </dependency>
+        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -121,14 +100,38 @@
             <version>${selenium.common.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jbehave</groupId>
-            <artifactId>jbehave-spring</artifactId>
-            <version>${jbehave.core.version}</version>
+            <groupId>org.seleniumhq.selenium.fluent</groupId>
+            <artifactId>fluent-selenium</artifactId>
+            <version>${selenium.fluent.version}</version>
+            <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest.all.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -145,8 +148,6 @@
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>${maven.dependency.plugin.version}</version>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                  only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -164,9 +165,6 @@
                                             <goal>unpack</goal>
                                         </goals>
                                     </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
@@ -177,9 +175,6 @@
                                             <goal>unpack-view-resources</goal>
                                         </goals>
                                     </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
                                 </pluginExecution>
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
@@ -194,7 +189,7 @@
                 <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>${basedir}/src/main/stories</directory>
+                <directory>${basedir}/src/test/stories</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
@@ -251,9 +246,6 @@
                             <ignoreFailureInView>${ignore.failures}</ignoreFailureInView>
                             <threads>${threads}</threads>
                             <skip>${skip}</skip>
-                            <metaFilters>
-                                <metaFilter>${meta.filter}</metaFilter>
-                            </metaFilters>
                             <executorsClass>org.jbehave.core.embedder.executors.SameThreadExecutors</executorsClass>
                         </configuration>
                         <goals>
