@@ -1,9 +1,24 @@
-*.class
+.DS_Store
+.gradle
+
+.idea/
+*.classpath
+*.settings
+*.project
+*.log
+*.ipr
+*.iml
+*.iws
+
+build/
+target/
+gradle/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
+*.class
 *.jar
 *.war
 *.ear
