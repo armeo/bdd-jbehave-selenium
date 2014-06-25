@@ -3,13 +3,13 @@ package com.bdd.steps;
 import com.bdd.pages.Home;
 import com.bdd.pages.PageFactory;
 import com.bdd.pages.SearchResults;
-import org.hamcrest.core.IsNull;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 public class Steps {
 
@@ -33,12 +33,12 @@ public class Steps {
 
     @Then("I should found results")
     public void googleFound() {
-        assertThat(searchResults.googleFound(), IsNull.notNullValue());
+        assertThat(searchResults.googleFound().isEmpty(), is(false));
     }
 
     @Then("I should not found results")
     public void googleNotFound() {
-        assertThat(searchResults.googleFound(), IsNull.nullValue());
+        assertThat(searchResults.googleFound().isEmpty(), is(true));
     }
 
 }
